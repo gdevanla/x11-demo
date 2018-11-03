@@ -1,0 +1,96 @@
+name:                x11-demo
+version:             0.1.0.0
+github:              "githubuser/x11-demo"
+license:             BSD3
+author:              "Author name here"
+maintainer:          "example@example.com"
+copyright:           "2018 Author name here"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/githubuser/x11-demo#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- X11
+- containers
+- mtl
+- data-default
+- directory
+- extensible-exceptions
+- filepath
+- process
+- setlocale
+- unix
+- utf8-string  >= 0.3 && < 1.1
+
+library:
+  source-dirs: src
+
+executables:
+  x11-demo-exe:
+    main:                Main
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -Wcompat
+    - -Wincomplete-record-update
+    - -Wincomplete-unipatterns
+    - -Wredundant-constraints
+    dependencies:
+    - x11-demo
+
+executables:
+  x11-demo1-exe:
+    main:                Main1
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -Wcompat
+    - -Wincomplete-record-update
+    - -Wincomplete-unipatterns
+    - -Wredundant-constraints
+    dependencies:
+    - x11-demo
+
+executables:
+  x11-demo2-exe:
+    main:                Main2
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -Wcompat
+    - -Wincomplete-record-update
+    - -Wincomplete-unipatterns
+    - -Wredundant-constraints
+    dependencies:
+    - x11-demo
+
+tests:
+  x11-demo-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - x11-demo
