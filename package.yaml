@@ -32,6 +32,7 @@ dependencies:
 - setlocale
 - unix
 - utf8-string  >= 0.3 && < 1.1
+- time
 
 library:
   source-dirs: src
@@ -52,7 +53,7 @@ executables:
     dependencies:
     - x11-demo
 
-executables:
+
   x11-demo1-exe:
     main:                Main1
     source-dirs:         app
@@ -68,9 +69,53 @@ executables:
     dependencies:
     - x11-demo
 
-executables:
   x11-demo2-exe:
     main:                Main2
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -Wcompat
+    - -Wincomplete-record-update
+    - -Wincomplete-unipatterns
+    - -Wredundant-constraints
+    dependencies:
+    - x11-demo
+
+  update-color-exe:
+    main:                Main3
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -Wcompat
+    - -Wincomplete-record-update
+    - -Wincomplete-unipatterns
+    - -Wredundant-constraints
+    dependencies:
+    - x11-demo
+
+  draw-in-window-exe:
+    main:                Main4
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -Wcompat
+    - -Wincomplete-record-update
+    - -Wincomplete-unipatterns
+    - -Wredundant-constraints
+    dependencies:
+    - x11-demo
+
+  print-in-window-exe:
+    main:                Main5
     source-dirs:         app
     ghc-options:
     - -threaded

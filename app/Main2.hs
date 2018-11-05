@@ -43,6 +43,7 @@ main = do
   sync dpy False
   allocaSetWindowAttributes $ \attributes -> do
     set_override_redirect attributes action
-    changeWindowAttributes dpy win cWOverrideRedirect attributes
+    set_background_pixel attributes $ blackPixel dpy (defaultScreen dpy)
+    changeWindowAttributes dpy win (cWOverrideRedirect .|. cWBackPixel) attributes
     mapWindow dpy win
     sync dpy False

@@ -26,8 +26,8 @@ main = do
       border = blackPixel dpy dflt
       background = whitePixel dpy dflt
   rootw <- rootWindow dpy dflt
-  win <- createSimpleWindow dpy rootw 0 0 100 100 1 border background
-  setTextProperty dpy win "Hello World" wM_NAME
+  win <- createSimpleWindow dpy rootw 50 50 100 100 1 border background
+  setTextProperty dpy win "Main-Hello World" wM_NAME
   mapWindow dpy win
   sync dpy False
   threadDelay (10 * 10000000)
