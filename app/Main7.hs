@@ -1,9 +1,8 @@
-module Main5 where
+module Main7 where
 
 -- draw rectangle demo
 
 import Graphics.X11.Xlib
-import System.Exit (exitWith, ExitCode(..))
 import Control.Concurrent (threadDelay)
 import Data.Bits
 import Data.Time
@@ -14,13 +13,17 @@ drawInWindow dpy win str = do
   fgColor <- initColor dpy "blue"
   gc <- createGC dpy win
   fontStruc <- loadQueryFont dpy "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
+  p <- createPixmap dpy win 200 100 (defaultDepthOfScreen (defaultScreenOfDisplay dpy))
+  --let p = win
   setForeground dpy gc bgColor
-  fillRectangle dpy win gc 0 0 200 100
+  fillRectangle dpy p gc 0 0 200 100
   setForeground dpy gc fgColor
-  fillRectangle dpy win gc 0 0 200 100
-  printString dpy win gc fontStruc str
+  fillRectangle dpy p gc 0 0 200 100
+  printString dpy p gc fontStruc str
+  copyArea dpy p win gc 0 0 200 100 0 0
   freeGC dpy gc
   freeFont dpy fontStruc
+  freePixmap dpy p
 
 printString :: Display -> Drawable -> GC -> FontStruct -> String -> IO ()
 printString dpy win gc fontStruc str = do
@@ -66,10 +69,21 @@ updateWin :: Display -> Window -> IO ()
 updateWin dpy win = do
   t <- getCurrentTime
   drawInWindow dpy win $ show t
-  sync dpy False
-  threadDelay (10 * 1000000)
+  sync dpy True
+  allocaXEvent $ \e -> do
+    nextEvent dpy e
+    e1 <- get_EventType e
+    putStrLn $ show e1
   updateWin dpy win
 
+-- sendExposeEvent :: Display -> Window -> IO ()
+-- sendExposeEvent dpy w =
+--   do threadDelay (1 * 1000000)
+--      allocaXEvent $ \e -> do
+--        set_EventType e expose
+--        sendEvent dpy w False noEventMask e
+--      sync dpy False
+--      sendExposeEvent dpy w
 
 main :: IO ()
 main = do
@@ -82,5 +96,6 @@ main = do
   -- win <- createSimpleWindow dpy rootw 0 0 100 100 1 border background
   win <- mkUnmanagedWindow dpy scr rootw 50 50 250 250
   setTextProperty dpy win "Hello World-Main4" wM_NAME
+  selectInput dpy win (exposureMask .|. buttonPressMask)
   mapWindow dpy win
   updateWin dpy win
