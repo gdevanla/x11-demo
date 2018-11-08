@@ -3,9 +3,11 @@ module Main7 where
 -- draw rectangle demo
 
 import Graphics.X11.Xlib
-import Control.Concurrent (threadDelay)
+import Graphics.X11.Xlib.Extras
+import Control.Concurrent (threadDelay, forkIO)
 import Data.Bits
 import Data.Time
+
 
 drawInWindow :: Display -> Window -> String -> IO ()
 drawInWindow dpy win str = do
@@ -76,14 +78,15 @@ updateWin dpy win = do
     putStrLn $ show e1
   updateWin dpy win
 
--- sendExposeEvent :: Display -> Window -> IO ()
--- sendExposeEvent dpy w =
---   do threadDelay (1 * 1000000)
---      allocaXEvent $ \e -> do
---        set_EventType e expose
---        sendEvent dpy w False noEventMask e
---      sync dpy False
---      sendExposeEvent dpy w
+sendExposeEvent :: Display -> Window -> IO ()
+sendExposeEvent dpy w =
+  do threadDelay (10 * 1000000)
+     putStrLn "Inside send expose event"
+     allocaXEvent $ \e -> do
+       setEventType e expose
+       sendEvent dpy w False noEventMask e
+     sync dpy False
+     sendExposeEvent dpy w
 
 main :: IO ()
 main = do
@@ -98,4 +101,5 @@ main = do
   setTextProperty dpy win "Hello World-Main4" wM_NAME
   selectInput dpy win (exposureMask .|. buttonPressMask)
   mapWindow dpy win
+  _ <- forkIO $ sendExposeEvent dpy win
   updateWin dpy win
