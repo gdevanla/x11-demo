@@ -122,8 +122,14 @@ executables:
     dependencies:
     - x11-demo
 
-  zipper-test:
-    main: UseZipper
+  # zipper-test:
+  #   main: UseZipper
+  #   source-dirs: app
+  #   dependencies:
+  #   - x11-demo
+
+  xmonad-zipper-test:
+    main: UseXmonadZipper
     source-dirs: app
     dependencies:
     - x11-demo
